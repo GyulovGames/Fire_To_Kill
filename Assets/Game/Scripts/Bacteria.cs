@@ -21,9 +21,9 @@ public class Bacteria : MonoBehaviour
             bangAudioSource.Play();
             splashAudioSource.Play();
 
-            GameObject gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
-            GameManager gameManagerScript = gameManagerObject.GetComponent<GameManager>();
-            gameManagerScript.Kills();
+          //  GameObject gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
+          //  GameManager gameManagerScript = gameManagerObject.GetComponent<GameManager>();
+          //  gameManagerScript.Kills();
 
             Invoke("DisbleBacteria", splashParticles.main.duration);
         }
@@ -34,4 +34,3 @@ public class Bacteria : MonoBehaviour
         gameObject.SetActive(false);
     }
 }
-

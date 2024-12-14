@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using YG;
+//using //YG;
 
 public class Translater : MonoBehaviour
 {
