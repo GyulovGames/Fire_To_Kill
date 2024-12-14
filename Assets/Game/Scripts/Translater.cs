@@ -11,15 +11,15 @@ public class Translater : MonoBehaviour
 
     private void Start()
     {
-        string lang = YG2.lang;
+        //string lang = YG2.lang;
 
-        if (Application.systemLanguage == SystemLanguage.Russian)
-        {
-            translateText.text = ruTextVersion.ToString();
-        }
-        else
-        {
-            translateText.text = enTextVersion.ToString();
-        }
+        //if (Application.systemLanguage == SystemLanguage.Russian)
+        //{
+        //    translateText.text = ruTextVersion.ToString();
+        //}
+        //else
+        //{
+        //    translateText.text = enTextVersion.ToString();
+        //}
     }
 }
