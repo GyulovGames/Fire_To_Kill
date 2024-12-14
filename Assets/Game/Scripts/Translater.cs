@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-//using //YG;
+using YG;
 
 public class Translater : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class Translater : MonoBehaviour
 
     private void Start()
     {
-        translateText = GetComponent<Text>();
+        string lang = YG2.lang;
 
         if (Application.systemLanguage == SystemLanguage.Russian)
         {
