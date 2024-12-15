@@ -14,6 +14,7 @@ public class AssaultRifle : MonoBehaviour
 
     private float nextFire;
 
+
     public void Shoot()
     {
         if (Time.time > nextFire)
