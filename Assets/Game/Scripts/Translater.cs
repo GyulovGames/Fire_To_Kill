@@ -7,19 +7,22 @@ public class Translater : MonoBehaviour
     [SerializeField] private string ruTextVersion;
     [SerializeField] private string enTextVersion;
 
-    private Text translateText;
-
     private void Start()
     {
-        //string lang = YG2.lang;
+        Text thisText = GetComponent<Text>();
+        string language = YG2.lang;
 
-        //if (Application.systemLanguage == SystemLanguage.Russian)
-        //{
-        //    translateText.text = ruTextVersion.ToString();
-        //}
-        //else
-        //{
-        //    translateText.text = enTextVersion.ToString();
-        //}
+        if(language == "ru")
+        {
+            thisText.text = ruTextVersion.ToString();
+        }
+        else if(language == "en")
+        {
+            thisText.text = enTextVersion.ToString();
+        }
+        else
+        {
+            thisText.text = enTextVersion.ToString();
+        }
     }
 }

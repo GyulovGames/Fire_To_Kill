@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Bacteria : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class Bacteria : MonoBehaviour
     [SerializeField] private AudioSource splashAudioSource;
     [SerializeField] private ParticleSystem splashParticles;
 
+
+    public static UnityEvent EnemyKill = new UnityEvent();
 
     private void OnTriggerEnter(Collider other)
     {
@@ -21,11 +24,8 @@ public class Bacteria : MonoBehaviour
             bangAudioSource.Play();
             splashAudioSource.Play();
 
-          //  GameObject gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
-          //  GameManager gameManagerScript = gameManagerObject.GetComponent<GameManager>();
-          //  gameManagerScript.Kills();
-
-            Invoke("DisbleBacteria", splashParticles.main.duration);
+            EnemyKill.Invoke();
+            Invoke(nameof(DisbleBacteria), splashParticles.main.duration);
         }
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using YG;
 
@@ -12,33 +13,26 @@ public class MenuCanvas : MonoBehaviour
     [SerializeField] private CanvasGroup mainMenuGroup;
     [SerializeField] private CanvasGroup levelsMenuGroup;
     [SerializeField] private CanvasGroup gamesMenuGroup;
-    [SerializeField] private CanvasGroup LoadingMenuGroup;
+    [SerializeField] private CanvasGroup loadingMenuGroup;
     [Space(10)]
     [SerializeField] private Image soundsButtonImage;
     [SerializeField] private Sprite soundsONSprite;
     [SerializeField] private Sprite soundsOFFSprite;
-
-
-    private bool sounds = true;
-    private int levels = 1;
+    [Space(10)]
+    [SerializeField] private Button[] levelButtons;
 
 
     private void Start()
     {
-        GetSavedData();
         SetSoundsSettings();
         SetCompletedLevels();
         RemoveLoadingMenu();
     }
 
-
-    private void GetSavedData()
-    {
-        sounds = YG2.saves.soundsSettings;
-        levels = YG2.saves.completedLevels;
-    }
     private void SetSoundsSettings()
     {
+        bool sounds = YG2.saves.soundsSettings;
+
         if (sounds)
         {
             soundsButtonImage.sprite = soundsONSprite;
@@ -54,45 +48,57 @@ public class MenuCanvas : MonoBehaviour
     }
     private void SetCompletedLevels()
     {
+        int levels = YG2.saves.completedLevels;
 
+        for (int i = 0; i < levels; i++)
+        {
+            levelButtons[i].interactable = true;
+        }
     }
     private void RemoveLoadingMenu()
     {
-        fadeController.Disappear(LoadingMenuGroup);
+        fadeController.Disappear(loadingMenuGroup);
         fadeController.Appear(mainMenuGroup);
+    }
+    private IEnumerator DelayLoadScene(int sceneIndex)
+    {
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(sceneIndex);
     }
 
 
-    public void Btn_OpenLevelsMenu()
+    public void Btn_Play()
     {
         buttonsSFXPlayer.Play();
 
         fadeController.Disappear(mainMenuGroup);
         fadeController.Appear(levelsMenuGroup);
     }
-    public void Btn_CloseLevelsMenu()
+    public void Btn_CloseLevels()
     {
         buttonsSFXPlayer.Play();
 
         fadeController.Disappear(levelsMenuGroup);
         fadeController.Appear(mainMenuGroup);
     }
-    public void Btn_OpenGamesMenu()
+    public void Btn_Games()
     {
         buttonsSFXPlayer.Play();
 
         fadeController.Disappear(mainMenuGroup);
         fadeController.Appear(gamesMenuGroup);
     }
-    public void Btn_CloseGamesMenu()
+    public void Btn_CloseGames()
     {
         buttonsSFXPlayer.Play();
 
         fadeController.Disappear(gamesMenuGroup);
         fadeController.Appear(mainMenuGroup);
     }
-    public void Btn_SoundsSwitching()
+    public void Btn_Sounds()
     {
+        bool sounds = YG2.saves.soundsSettings;
+
         if (sounds)
         {
             soundsButtonImage.sprite = soundsOFFSprite;
@@ -110,5 +116,20 @@ public class MenuCanvas : MonoBehaviour
         }
 
         YG2.SaveProgress();
+    }
+    public void Btn_LoadLevel(int levelIndex)
+    {
+        buttonsSFXPlayer.Play();
+        fadeController.Appear(loadingMenuGroup);
+        StartCoroutine(DelayLoadScene(levelIndex));
+    }
+
+    public void Btn_OpenDeveloperAccount()
+    {
+        YG2.OnDeveloperURL();
+    }
+    public void Btn_OpenSniperNoob()
+    {
+        YG2.OnGameURL(203454);
     }
 }

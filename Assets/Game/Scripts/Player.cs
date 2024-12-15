@@ -1,4 +1,5 @@
 using UnityEngine;
+using YG;
 
 public class Player : MonoBehaviour
 {
@@ -6,8 +7,15 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioSource playerAudioSource;
     [SerializeField] private AssaultRifle assaultRifle;
 
+    private bool sounds = true;
     private bool gameStarted = true;
     private bool playerOnGround = true;
+
+
+    private void Start()
+    {
+        sounds = YG2.saves.soundsSettings;
+    }
 
     private void FixedUpdate()
     {
@@ -32,8 +40,12 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         playerOnGround = true;
-        playerAudioSource.volume = collision.impulse.magnitude * 0.01f;
-        playerAudioSource.Play();
+
+        if (sounds)
+        {
+            playerAudioSource.volume = collision.impulse.magnitude * 0.01f;
+            playerAudioSource.Play();
+        }
     }
 
     private void OnCollisionExit(Collision collision)
