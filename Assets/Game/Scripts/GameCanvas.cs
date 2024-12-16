@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
@@ -17,6 +16,9 @@ public class GameCanvas : MonoBehaviour
 
     private GameObject[] enemies;
     private int killedEnemyes;
+
+    public static UnityEvent PauseEvent = new UnityEvent();
+    public static UnityEvent ResumeGame = new UnityEvent();
 
 
     private void Start()
@@ -59,7 +61,7 @@ public class GameCanvas : MonoBehaviour
     {
         Bacteria.EnemyKill.RemoveListener(KilledEnemyesCounter);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.3f);
         SceneManager.LoadScene(sceneIndex);
     }
     private void KilledEnemyesCounter()
@@ -70,6 +72,7 @@ public class GameCanvas : MonoBehaviour
         {
             SaveCompletedLevels();
             Invoke(nameof(DelayBeforeSuccess), 1.3f);
+            PauseEvent.Invoke();
         }
     }
     private void SaveCompletedLevels()
@@ -96,12 +99,14 @@ public class GameCanvas : MonoBehaviour
     public void Btn_Pause()
     {
         buttonsSFXPlayer.Play();
+        PauseEvent.Invoke();
         fadeController.Disappear(gameMenuGroup);
         fadeController.Appear(pauseMenuGroup);
     }
     public void Btn_Resume()
     {
         buttonsSFXPlayer.Play();
+        ResumeGame.Invoke();
         fadeController.Disappear(pauseMenuGroup);
         fadeController.Appear(gameMenuGroup);
     }

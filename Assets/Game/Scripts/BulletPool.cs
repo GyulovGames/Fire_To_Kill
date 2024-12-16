@@ -22,7 +22,6 @@ public class BulletPool : MonoBehaviour
             bulletsLIst.Add(bulletInstace);
         }
     }
-
     public GameObject GetPooledBullet()
     {
         for (int i = 0; i < ammountInBulletsPool; i++)

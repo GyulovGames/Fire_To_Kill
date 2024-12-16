@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 using YG;
 
 public class Player : MonoBehaviour
@@ -7,81 +8,94 @@ public class Player : MonoBehaviour
     [SerializeField] private Rigidbody rigidBody;
     [SerializeField] private AudioSource playerAudioSource;
     [SerializeField] private AssaultRifle assaultRifle;
-    public Transform target;
+    [SerializeField] private Transform aimTransform;
 
     private Camera gameCamera;
     private EventSystem eventSystem;
 
     private bool sounds = true;
-    private bool playerOnGround = true;
+    private bool cursorIsVisible = false;
+    private bool isGamePaused = false;
 
 
     private void Start()
     {
+        Cursor.visible = false;
         sounds = YG2.saves.soundsSettings;
 
         GameObject cam = GameObject.FindGameObjectWithTag("GameCamera");
         gameCamera = cam.GetComponent<Camera>();
+
         GameObject even = GameObject.FindGameObjectWithTag("EventSystem");
         eventSystem = even.GetComponent<EventSystem>();
+
+        GameCanvas.PauseEvent.AddListener(GamePause);
+        GameCanvas.ResumeGame.AddListener(ResumeGame);
     }
 
     private void Update()
     {
-        if (!eventSystem.IsPointerOverGameObject() && Input.GetMouseButton(0))
+        if (!isGamePaused)
         {
-            //Vector3 mousePosition = gameCamera.ScreenToWorldPoint(Input.mousePosition);
-            //Vector3 direction = mousePosition - transform.position;
-            //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            //transform.rotation = Quaternion.Euler(0, 0, angle);
+            CusorAndAimVisible();
+
+            if (!eventSystem.IsPointerOverGameObject() && Input.GetMouseButton(0))
+            {
+                assaultRifle.Shoot();
+            }
 
 
-            // ѕолучаем позицию курсора в экранных координатах
-            Vector3 cursorScreenPosition = Input.mousePosition;
-
-            // —оздаем луч из камеры через позицию курсора
-            Ray ray = Camera.main.ScreenPointToRay(cursorScreenPosition);
-
-            // Ќаходим точку пересечени€ луча с плоскостью (например, плоскостью земли)
+            Vector3 cursorScreenPoint = Input.mousePosition;
+            Ray ray = gameCamera.ScreenPointToRay(cursorScreenPoint);
             RaycastHit hit;
+
             if (Physics.Raycast(ray, out hit))
             {
-                // ѕолучаем позицию пересечени€ в мировых координатах
                 Vector3 cursorWorldPosition = hit.point;
-                Debug.Log("ѕозици€ курсора в мировых координатах: " + cursorWorldPosition);
+                cursorWorldPosition.z = -0.55f;
+                aimTransform.position = cursorWorldPosition;
 
+                Vector3 direction = aimTransform.position - transform.position;
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0, 0, angle);
             }
-        Vector3 mousePosition = gameCamera.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = 0;
-        Vector3 direction = target.position- transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        // angle -= 90f;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-
-       // assaultRifle.Shoot();
+        }
     }
 
-    private void StopRotation()
+    private void CusorAndAimVisible()
     {
-        if (!playerOnGround)
+        if(eventSystem.IsPointerOverGameObject() && !cursorIsVisible)
         {
-            rigidBody.angularVelocity = Vector3.zero;
+            aimTransform.gameObject.SetActive(false);
+            Cursor.visible = true;
+            cursorIsVisible = true;
         }
+        else if(!eventSystem.IsPointerOverGameObject() && cursorIsVisible)
+        {
+            aimTransform.gameObject.SetActive(true);
+            Cursor.visible = false;
+            cursorIsVisible = false;
+        }
+    }
+    private void GamePause()
+    {
+        isGamePaused = true;
+        aimTransform.gameObject.SetActive(false);
+        Cursor.visible = true;
+        cursorIsVisible = true;
+
+    }
+    private void ResumeGame()
+    {
+        isGamePaused = false;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        playerOnGround = true;
-
         if (sounds)
         {
             playerAudioSource.volume = collision.impulse.magnitude * 0.01f;
             playerAudioSource.Play();
         }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        playerOnGround = false;
     }
 }

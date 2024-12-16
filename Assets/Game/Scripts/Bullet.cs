@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag != "Player")
+        if(other.gameObject.layer != 8)
         {
             rigidBody.velocity = Vector3.zero;
             boxCollider.enabled = false;

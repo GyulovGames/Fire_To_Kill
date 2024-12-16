@@ -1,6 +1,6 @@
 {
     "soundsSettings": true,
-    "completedLevels": 74,
+    "completedLevels": 2,
     "intExample": 5,
     "strExample": "Hello!",
     "boolExample": [
@@ -9,5 +9,5 @@
         false,
         false
     ],
-    "idSave": 129
+    "idSave": 157
 }

@@ -6,7 +6,7 @@ public class AssaultRifle : MonoBehaviour
     [SerializeField] private float recoil;
     [SerializeField] private float fireRate;
     [Space(20)]
-    [SerializeField] private BulletPool bulletPool;
+    [SerializeField] private BulletPool bulletsPool;
     [SerializeField] private Transform shootPoint;
     [SerializeField] private Animator weaponAnimator;
     [SerializeField] private AudioSource weaponAudioSource;
@@ -21,7 +21,7 @@ public class AssaultRifle : MonoBehaviour
         {
             nextFire = Time.time + fireRate;
 
-            GameObject bullet = bulletPool.GetPooledBullet();
+            GameObject bullet = bulletsPool.GetPooledBullet();
             shootPoint.localEulerAngles = shootPoint.forward * Random.Range(spread, -spread);
             bullet.transform.position = shootPoint.transform.position;
             bullet.transform.rotation = shootPoint.transform.rotation;
