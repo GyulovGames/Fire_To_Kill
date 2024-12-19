@@ -10,6 +10,7 @@ TagManager:
   - MainCanvas
   - GameCamera
   - EventSystem
+  - Joystick
   layers:
   - Default
   - TransparentFX
