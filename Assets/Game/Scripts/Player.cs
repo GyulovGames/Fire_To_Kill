@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Events;
 using YG;
 
 public class Player : MonoBehaviour

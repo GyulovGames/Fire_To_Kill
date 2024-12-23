@@ -13,24 +13,21 @@ MonoBehaviour:
   m_Name: SettingsYG2
   m_EditorClassIdentifier: 
   Authorization:
-    scopes: 1
+    scopes: 0
     playerPhotoSize: 1
-    authorized: 1
+    authorized: 0
     playerName: Player current
     uniqueID: 000
     playerPhoto: demo image
     payingStatus: 0
   InterstitialAdv:
     showFirstAdv: 1
-    interAdvInterval: 60
+    interAdvInterval: 10
     postponeCallByFail: 0
     postponeCallTimer: 10
     labelAdvSimLabel: 0
   Localization:
     setLanguageMod: 1
-  OpenURL:
-    developerURL: https://yandex.com/games/developer/40067
-    allGames: []
   Storage:
     saveLocal: 1
     saveCloud: 1
@@ -50,7 +47,7 @@ MonoBehaviour:
     simulationLoadScene: 0
   Simulation:
     device: 1
-    language: en
+    language: ru
     advIntervalSimulation: 60
     durationAdv: 0.5
     loadAdv: 0

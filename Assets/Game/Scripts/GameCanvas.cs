@@ -112,6 +112,8 @@ public class GameCanvas : MonoBehaviour
     }
     public void Btn_Restart()
     {
+        YG2.InterstitialAdvShow();
+
         buttonsSFXPlayer.Play();
         fadeController.Appear(loadingMenuGroup);
         int scene = SceneManager.GetActiveScene().buildIndex;
@@ -119,6 +121,8 @@ public class GameCanvas : MonoBehaviour
     }
     public void Btn_NextLevel()
     {
+        YG2.InterstitialAdvShow();
+
         buttonsSFXPlayer.Play();
         fadeController.Appear(loadingMenuGroup);
         int currentScene = SceneManager.GetActiveScene().buildIndex;
@@ -135,6 +139,8 @@ public class GameCanvas : MonoBehaviour
     }
     public void Btn_Home()
     {
+        YG2.InterstitialAdvShow();
+
         buttonsSFXPlayer.Play();
         fadeController.Appear(loadingMenuGroup);
         StartCoroutine(DelayLoadScene(0));

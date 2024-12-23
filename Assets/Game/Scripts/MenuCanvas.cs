@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -27,6 +26,8 @@ public class MenuCanvas : MonoBehaviour
         SetSoundsSettings();
         SetCompletedLevels();
         RemoveLoadingMenu();
+
+        YG2.InterstitialAdvShow();
     }
 
     private void SetSoundsSettings()
@@ -53,6 +54,8 @@ public class MenuCanvas : MonoBehaviour
         for (int i = 0; i < levels; i++)
         {
             levelButtons[i].interactable = true;
+            Image buttonImage = levelButtons[i].gameObject.GetComponent<Image>();
+            buttonImage.color = Color.white;
         }
     }
     private void RemoveLoadingMenu()
@@ -122,14 +125,5 @@ public class MenuCanvas : MonoBehaviour
         buttonsSFXPlayer.Play();
         fadeController.Appear(loadingMenuGroup);
         StartCoroutine(DelayLoadScene(levelIndex));
-    }
-
-    public void Btn_OpenDeveloperAccount()
-    {
-        YG2.OnDeveloperURL();
-    }
-    public void Btn_OpenSniperNoob()
-    {
-        YG2.OnGameURL(203454);
     }
 }
